@@ -23,6 +23,8 @@ namespace RegulationCheck
     {
         double regulation_stairs_height = 190;
         double regulation_railing_height;
+        public static List<string[]> form_list5 = new List<string[]>();
+        public static List<string[]> form_list6 = new List<string[]>();
 
 
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
@@ -69,6 +71,9 @@ namespace RegulationCheck
             sb.AppendLine("規範：樓梯之垂直淨空距離不得小於 190 公分");
             sb.AppendLine("樓梯名稱\t樓梯高度(cm)\t規範高度(cm)\t是否符合規範");
 
+            form_list5.Add(new string[] { "5.樓梯垂直淨空高度檢核" });
+            form_list5.Add(new string[] { "規範：樓梯之垂直淨空距離不得小於 190 公分" });
+
 
             //先把全部的樓梯抓出來，有分室外梯以及室內梯，不過好像不用特別分室外跟室內耶
 
@@ -92,11 +97,17 @@ namespace RegulationCheck
                     + regulation_stairs_height.ToString() + "\t"
                     + (stairs_height >= regulation_stairs_height).ToString();
                 sb.AppendLine(s);
+
+                string[] row = new string[] { stairs.Id.ToString(), stairs.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString(), stairs_height.ToString(), regulation_stairs_height.ToString(), "無", (stairs_height >= regulation_stairs_height).ToString() };
+                form_list5.Add(row);
             }
 
             sb.AppendLine();
             sb.AppendLine();
             File.AppendAllText(newFileName, sb.ToString(), Encoding.Unicode);
+
+            form_list5.Add(new string[] { });
+            form_list5.Add(new string[] { });
 
 
 
@@ -107,6 +118,10 @@ namespace RegulationCheck
             sb2.AppendLine("6.欄杆扶手高度檢核：");
             sb2.AppendLine("規範：設置於露臺、陽臺、室外走廊、室外樓梯、平屋頂及室內天井部 分等之欄桿扶手高度欄桿扶手高度，不得小於1.1公尺，十層以上者，不得小於1.2公尺");
             sb2.AppendLine("欄杆名稱\t欄杆高度(cm)\t規範高度(cm)\t是否符合規範");
+
+            form_list6.Add(new string[] { "6.欄杆扶手高度檢核：" });
+            form_list6.Add(new string[] { "規範：設置於露臺、陽臺、室外走廊、室外樓梯、平屋頂及室內天井部 分等之欄桿扶手高度欄桿扶手高度，不得小於1.1公尺，十層以上者，不得小於1.2公尺" });
+
 
             //接下來要取欄杆高度
             //樓梯用的扶手、欄杆是900mm的，跟女兒牆的布一樣
@@ -127,12 +142,18 @@ namespace RegulationCheck
                 string s = railing.Name + "\t" + railing_height.ToString() + "\t" + regulation_railing_height.ToString()
                     + "\t" + (railing_height >= regulation_railing_height).ToString();
                 sb2.AppendLine(s);
+
+                string[] row = new string[] { railing.Id.ToString(), railing.Name, railing_height.ToString(), regulation_railing_height.ToString(), "無", (railing_height >= regulation_railing_height).ToString() };
+                form_list6.Add(row);
             }
 
             sb2.AppendLine();
             sb2.AppendLine();
 
             File.AppendAllText(newFileName, sb2.ToString(), Encoding.Unicode);
+
+            form_list6.Add(new string[] { });
+            form_list6.Add(new string[] { });
 
 
 

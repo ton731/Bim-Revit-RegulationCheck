@@ -41,6 +41,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -53,6 +54,14 @@
     <Compile Include="BasicInfo.cs" />
     <Compile Include="FireProofDoor.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="MakeFormConnect.cs" />
+    <Compile Include="MakeFormStorage.cs" />
+    <Compile Include="MakeFormWindowsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MakeFormWindowsForm.Designer.cs">
+      <DependentUpon>MakeFormWindowsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ParapetHeight.cs" />
     <Compile Include="RampSlope.cs" />
     <Compile Include="RoomHeight.cs" />
@@ -62,6 +71,11 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MakeFormWindowsForm.resx">
+      <DependentUpon>MakeFormWindowsForm.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

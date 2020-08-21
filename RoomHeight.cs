@@ -20,6 +20,7 @@ namespace RegulationCheck
     {
         double regulation_height = 210;
         public static int room_count = 0;
+        public static List<string[]> form_list1 = new List<string[]>();
 
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
@@ -37,6 +38,9 @@ namespace RegulationCheck
             sb.AppendLine("規範：居室及浴室房間高度不可小於2.1m ");
             sb.AppendLine("房間樓層\t房間名稱(種類)\t目前房高(cm)\t規範最低房高(cm)\t是否通過規範");
 
+            form_list1.Add(new string[] { "1.房間種類高度檢核：" });
+            form_list1.Add(new string[] { "規範：居室及浴室房間高度不可小於2.1m " });
+
             foreach (Element elem in rooms)
             {
                 Room room = elem as Room;
@@ -46,11 +50,18 @@ namespace RegulationCheck
                 sb.AppendLine(level_name + "\t" + room_name + "\t" + room_height.ToString() + "\t"
                     + regulation_height.ToString() + "\t"
                     + (room_height >= regulation_height).ToString());
+
+
+                string[] row = new string[] {room.Id.ToString(),room_name,room_height.ToString(),regulation_height.ToString(),"無", (room_height >= regulation_height).ToString() };
+                form_list1.Add(row);
             }
 
             sb.AppendLine();
             sb.AppendLine();
             File.AppendAllText(newFileName, sb.ToString(), Encoding.Unicode);
+
+            form_list1.Add(new string[] {});
+            form_list1.Add(new string[] {});
 
             return Result.Succeeded;
         }

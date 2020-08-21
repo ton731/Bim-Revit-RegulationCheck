@@ -19,6 +19,8 @@ namespace RegulationCheck
     {
         bool has_elevator = true;
         double max_wutoo_height = 0;
+        public static List<string[]> form_list3 = new List<string[]>();
+        public static List<string[]> form_list4 = new List<string[]>();
 
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
@@ -64,11 +66,22 @@ namespace RegulationCheck
             sb.AppendLine("屋突最大高度(cm):" + "\t" + max_wutoo_height.ToString());
             sb.AppendLine("此棟建築屋突是否有升降梯\t屋突高度(cm)\t最大屋突高度(cm)\t是否有符合規範");
 
+            form_list3.Add(new string[] { "3.屋突高度檢核：" });
+            form_list3.Add(new string[] { "規範：屋突高度需在六公尺內，或昇降機設備通 達之屋突高度需在九公尺之內。" });
+
+
+
             sb.AppendLine(has_elevator.ToString()+"\t"+ wutoo_height.ToString()+"\t"
                 + max_wutoo_height.ToString()+"\t"+ (wutoo_height < max_wutoo_height).ToString());
 
+            string[] row = new string[] { "無", "無", wutoo_height.ToString(), "無", max_wutoo_height.ToString(), (wutoo_height < max_wutoo_height).ToString() };
+            form_list3.Add(row);
+
             sb.AppendLine();
             sb.AppendLine();
+
+            form_list3.Add(new string[] { });
+            form_list3.Add(new string[] { });
 
             File.AppendAllText(newFileName, sb.ToString(), Encoding.Unicode);
 
@@ -110,11 +123,20 @@ namespace RegulationCheck
             sb2.AppendLine("規範：屋突面積需小於建築面積之 1/8 ");
             sb2.AppendLine("建築物總面積(m2)\t屋突總面積(m2)\t是否小於規範要求的面積");
 
+            form_list4.Add(new string[] { "4.屋突面積檢核：" });
+            form_list4.Add(new string[] { "規範：屋突面積需小於建築面積之 1/8" });
+
             sb2.AppendLine(total_area.ToString() + "\t" + wutoo_area.ToString() + "\t"
                 + (wutoo_area < total_area / 8).ToString());
 
+            string[] row2 = new string[] { "無", "無", wutoo_area.ToString(), "無", (total_area/8).ToString(), (wutoo_area < total_area / 8).ToString() };
+            form_list4.Add(row2);
+
             sb2.AppendLine();
             sb2.AppendLine();
+
+            form_list4.Add(new string[] { });
+            form_list4.Add(new string[] { });
 
             File.AppendAllText(newFileName, sb2.ToString(), Encoding.Unicode);
 

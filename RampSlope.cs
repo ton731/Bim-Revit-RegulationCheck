@@ -19,6 +19,9 @@ namespace RegulationCheck
     [Transaction(TransactionMode.Manual)]
     public class RampSlope : IExternalCommand
     {
+
+        public static List<string[]> form_list7 = new List<string[]>();
+
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             //我把坡道的樓板都用comment備註「坡道」了
@@ -77,12 +80,22 @@ namespace RegulationCheck
             sb.AppendLine("規範：機車坡道及汽機車併用車道坡度不得超過 1 比 8");
             sb.AppendLine("規範車道最大坡度\t此模型車道坡度\t是否通過規範");
 
+            form_list7.Add(new string[] { "7.坡道坡度檢核: " });
+            form_list7.Add(new string[] { "規範：機車坡道及汽機車併用車道坡度不得超過 1 比 8" });
+
+
             sb.AppendLine(regulation_slope.ToString() + "\t" + ramp_slope.ToString() + "\t"
                 + (ramp_slope <= regulation_slope).ToString());
+
+            string[] row = new string[] { "無", "坡道", ramp_slope.ToString(), "無", regulation_slope.ToString(), (ramp_slope <= regulation_slope).ToString() };
+            form_list7.Add(row);
 
             sb.AppendLine();
             sb.AppendLine();
             File.AppendAllText(newFileName, sb.ToString(), Encoding.Unicode);
+
+            form_list7.Add(new string[] { });
+            form_list7.Add(new string[] { });
 
 
 

@@ -18,6 +18,7 @@ namespace RegulationCheck
     {
         double regulation_door_width = 75;
         double regulation_door_height = 180;
+        public static List<string[]> form_list8 = new List<string[]>();
 
 
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
@@ -34,7 +35,8 @@ namespace RegulationCheck
             sb.AppendLine("規範：防火門填入防火等級與防火時效後，尺寸寬應 在七十五公分以上，高應在一百八十公分");
             sb.AppendLine("防火門樓層\t防火門名稱\t寬度(cm)\t高度(cm)\t規範最小寬度(cm)\t規範最小高度(cm)\t是否通過規範");
 
-
+            form_list8.Add(new string[] { "8.防火門尺寸檢核：" });
+            form_list8.Add(new string[] { "規範：防火門填入防火等級與防火時效後，尺寸寬應 在七十五公分以上，高應在一百八十公分 " });
 
 
 
@@ -50,12 +52,20 @@ namespace RegulationCheck
                     sb.AppendLine(doorLevel + "\t" + doorName + "\t" + width.ToString() + "\t" + height.ToString()
                        + "\t" + regulation_door_width.ToString() + "\t" + regulation_door_height.ToString() + "\t"
                        + (width >= regulation_door_width & height >= regulation_door_height).ToString());
+
+                    string scale = width.ToString() + "," + height.ToString();
+                    string min_scale = regulation_door_width.ToString() + "," + regulation_door_height.ToString();
+                    string[] row = new string[] { familyInstance.Id.ToString(), doorName, scale, min_scale, "無", (width >= regulation_door_width & height >= regulation_door_height).ToString() };
+                    form_list8.Add(row);
                 }
             }
 
             sb.AppendLine();
             sb.AppendLine();
             File.AppendAllText(newFileName, sb.ToString(), Encoding.Unicode);
+
+            form_list8.Add(new string[] { });
+            form_list8.Add(new string[] { });
 
 
 

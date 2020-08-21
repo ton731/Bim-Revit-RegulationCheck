@@ -22,6 +22,8 @@ namespace RegulationCheck
         int regulation_parapet_max_height = 150;
         public static int floor_count;
         public static double highest_elev = 0;
+        public static List<string[]> form_list2 = new List<string[]>();
+
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
@@ -78,6 +80,9 @@ namespace RegulationCheck
             sb.AppendLine("女兒牆最低高度：" + "\t" + regulation_parapet_min_height.ToString() +"cm");
             sb.AppendLine("女兒牆名稱\t樓層\t女兒牆高(cm)\t最低高度(cm)\t最高高度(cm)\t是否符合規範");
 
+            form_list2.Add(new string[] { "2.女兒牆高度檢核：" });
+            form_list2.Add(new string[] { "規範：女兒牆高度，兩層以上大於1m，三層以上大於1.1m，十層以上大於1.2m，不得超過1.5m" });
+
 
             //女兒牆上面都有一個欄杆，高度是20cm，它裡面沒有這個參數，所以我等下牆的高度要再加上20cm才是女兒牆的高度
             //先把牆都找到
@@ -116,12 +121,18 @@ namespace RegulationCheck
                     + "\t" + (wall_Height >= regulation_parapet_min_height & wall_Height <= regulation_parapet_max_height).ToString();
 
                 sb.AppendLine(s);
+
+                string[] row = new string[] { wall.Id.ToString(), wall_name, wall_height, regulation_parapet_min_height.ToString(),regulation_parapet_max_height.ToString(), (wall_Height >= regulation_parapet_min_height & wall_Height <= regulation_parapet_max_height).ToString() };
+                form_list2.Add(row);
             }
 
             sb.AppendLine();
             sb.AppendLine();
 
             File.AppendAllText(newFileName, sb.ToString(), Encoding.Unicode);
+
+            form_list2.Add(new string[] { });
+            form_list2.Add(new string[] { });
 
             return Result.Succeeded;
         }
