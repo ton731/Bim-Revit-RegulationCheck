@@ -64,7 +64,7 @@ namespace RegulationCheck
             if (floor_count >= 10)
                 regulation_parapet_min_height = 120;
             else if (floor_count >= 3)
-                regulation_parapet_min_height = 110;
+                regulation_parapet_min_height = 120;
             else
                 regulation_parapet_min_height = 100;
 

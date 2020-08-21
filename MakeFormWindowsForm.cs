@@ -29,62 +29,57 @@ namespace RegulationCheck
 
             InitializeComponent();
 
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            AllDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
             //接著把form_list一個一個加進來datagridview
             foreach (string[] row in RoomHeight.form_list1)
             {
-                dataGridView1.Rows.Add(row);
+                AllDataGridView.Rows.Add(row);
             }
             foreach (string[] row in ParapetHeight.form_list2)
             {
-                dataGridView1.Rows.Add(row);
+                AllDataGridView.Rows.Add(row);
             }
             foreach (string[] row in WuToo.form_list3)
             {
-                dataGridView1.Rows.Add(row);
+                AllDataGridView.Rows.Add(row);
             }
             foreach (string[] row in WuToo.form_list4)
             {
-                dataGridView1.Rows.Add(row);
+                AllDataGridView.Rows.Add(row);
             }
             foreach (string[] row in StairsCheck.form_list5)
             {
-                dataGridView1.Rows.Add(row);
+                AllDataGridView.Rows.Add(row);
             }
             foreach (string[] row in StairsCheck.form_list6)
             {
-                dataGridView1.Rows.Add(row);
+                AllDataGridView.Rows.Add(row);
             }
             foreach (string[] row in RampSlope.form_list7)
             {
-                dataGridView1.Rows.Add(row);
+                AllDataGridView.Rows.Add(row);
             }
             foreach (string[] row in FireProofDoor.form_list8)
             {
-                dataGridView1.Rows.Add(row);
+                AllDataGridView.Rows.Add(row);
             }
 
-            foreach (DataGridViewRow row in dataGridView1.Rows)
+            foreach (DataGridViewRow row in AllDataGridView.Rows)
             {
                 //避免選到標題或是規範那個row
                 if (row.Cells[5].Value != null)
                 {
                     if (row.Cells[5].Value.ToString() == "False")
+                    {
                         row.DefaultCellStyle.BackColor = System.Drawing.Color.Red;
+
+                        //也把他加進去第二個頁籤(error)
+                        string[] s = new string[]{row.Cells[0].Value.ToString(), row.Cells[1].Value.ToString(), row.Cells[2].Value.ToString(), row.Cells[3].Value.ToString(), row.Cells[4].Value.ToString(), row.Cells[5].Value.ToString()};
+                        ErrorDataGridView.Rows.Add(s);
+                    } 
                 }
             }
-
-            
-
-
-
-
-
-
-
-
-
 
         }
         private void MakeFormWindowsForm_Load(object sender, EventArgs e)
@@ -97,9 +92,18 @@ namespace RegulationCheck
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             //避免選到標題或是規範那個row
-            if (dataGridView1.SelectedRows[0].Cells[5].Value != null)
-                IdTextBox.Text = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
+            if (AllDataGridView.SelectedRows[0].Cells[5].Value != null)
+                IdTextBox.Text = AllDataGridView.SelectedRows[0].Cells[0].Value.ToString();
         }
+
+        private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //避免選到標題或是規範那個row
+            if (ErrorDataGridView.SelectedRows[0].Cells[5].Value != null)
+                IdTextBox.Text = ErrorDataGridView.SelectedRows[0].Cells[0].Value.ToString();
+        }
+
+
 
         private void CloseButton_Click(object sender, EventArgs e)
         {
